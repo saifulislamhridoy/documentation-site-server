@@ -34,6 +34,7 @@ async function run() {
         const userCollection = client.db('documentation').collection('users')
         const tutorialCollection = client.db('documentation').collection('tutorials')
         const blogCollection = client.db('documentation').collection('blogs')
+        const reviewCollection = client.db('documentation').collection('reviews')
 
         // collect user and Issue jwt
         app.put('/user/:email',async(req,res)=>{
@@ -122,6 +123,19 @@ async function run() {
         const query = {email:email}
         const user = await userCollection.findOne(query);
         res.send(user)
+    });
+    // Post Review
+    app.post('/review',async(req,res)=>{
+      const newReview = req.body;
+      const result = await reviewCollection.insertOne(newReview);
+      res.send(result)
+    });
+    // Get Review
+    app.get('/review',async(req,res)=>{
+      const query ={}
+      const cursor = reviewCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result)
     });
     // Make Admin
     app.put('/user/admin/:email',verifyJWT,async(req,res)=>{
