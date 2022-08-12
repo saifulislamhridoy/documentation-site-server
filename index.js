@@ -35,6 +35,7 @@ async function run() {
         const tutorialCollection = client.db('documentation').collection('tutorials')
         const blogCollection = client.db('documentation').collection('blogs')
         const reviewCollection = client.db('documentation').collection('reviews')
+        const courseCollection = client.db('documentation').collection('courses')
 
         // collect user and Issue jwt
         app.put('/user/:email',async(req,res)=>{
@@ -48,6 +49,16 @@ async function run() {
             const token = jwt.sign({email:email},process.env.ACCESS_TOKEN_SECRET,{expiresIn:'1d'})
             const result = await userCollection.updateOne(filter,updateDoc,option)
             res.send({result,token})
+        });
+        app.put('/user/:email',async(req,res)=>{
+            const email = req.params.email;
+            const user = req.body
+            const filter = {email:email}
+            const updateDoc ={
+                $set:user
+            }
+            const result = await userCollection.updateOne(filter,updateDoc)
+            res.send(result)
         });
         // Get Tutorial
       app.get('/tutorial',async(req,res)=>{
@@ -163,6 +174,20 @@ async function run() {
         const isAdmin = user.role==="admin"
         res.send({admin:isAdmin})
     });
+     // get all product 
+     app.get('/course', async (req, res) => {
+      const query = {};
+      const cursor = courseCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+  });
+  //  get single data
+  app.get('/course/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: ObjectId(id) }
+      const result = await courseCollection.findOne(query);
+      res.send(result)
+  });
     }
     finally {
 
