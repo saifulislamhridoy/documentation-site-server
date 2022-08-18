@@ -36,6 +36,8 @@ async function run() {
         const blogCollection = client.db('documentation').collection('blogs')
         const reviewCollection = client.db('documentation').collection('reviews')
         const courseCollection = client.db('documentation').collection('courses')
+        const questionCollection = client.db('documentation').collection('questions')
+        const answerCollection = client.db('documentation').collection('answers')
 
         // collect user and Issue jwt
         app.put('/user/:email',async(req,res)=>{
@@ -188,6 +190,41 @@ async function run() {
       const result = await courseCollection.findOne(query);
       res.send(result)
   });
+  // Collect Question
+  app.post('/question',async(req,res)=>{
+    const question = req.body;
+    const result = await questionCollection.insertOne(question);
+    res.send(result);
+  });
+
+  // GET Questions
+  app.get('/question',async(req,res)=>{
+    const query={}
+    const cursor = questionCollection.find(query);
+    const result = await (await cursor.toArray()).reverse()
+    res.send(result)
+  });
+  // Get Single Question
+  app.get('/question/:id',async(req,res)=>{
+    const id = req.params.id;
+    const query={_id:ObjectId(id)}
+    const result = await questionCollection.findOne(query)
+    res.send(result)
+  })
+  // Collect Answer
+  app.post('/answer',async(req,res)=>{
+    const answer = req.body;
+    const result = await answerCollection.insertOne(answer)
+    res.send(result)
+  });
+// Get Answer
+app.get('/answer/:id',async(req,res)=>{
+  const postId = req.params.id;
+  const query = {postId:postId};
+  const result = await answerCollection.find(query).toArray();
+  res.send(result);
+})
+
     }
     finally {
 
