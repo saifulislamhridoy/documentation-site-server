@@ -38,6 +38,7 @@ async function run() {
         const courseCollection = client.db('documentation').collection('courses')
         const questionCollection = client.db('documentation').collection('questions')
         const answerCollection = client.db('documentation').collection('answers')
+        const commentCollection = client.db('documentation').collection('comments')
 
         // collect user and Issue jwt
         app.put('/user/:email',async(req,res)=>{
@@ -225,7 +226,20 @@ app.get('/answer/:id',async(req,res)=>{
   res.send(result);
 })
  
-// Collect comment
+// Collect comments
+app.post('/comment',async(req,res)=>{
+  const postComment = req.body;
+  const result = await commentCollection.insertOne(postComment)
+  res.send(result)
+});
+
+// Get comments
+app.get('/comment/:id',async(req,res)=>{
+  const postId = req.params.id;
+  const query = {postId:postId};
+  const result = await (await commentCollection.find(query).toArray()).reverse();
+  res.send(result);
+})
     }
     finally {
 
