@@ -224,7 +224,8 @@ app.get('/answer/:id',async(req,res)=>{
   const result = await answerCollection.find(query).toArray();
   res.send(result);
 })
-
+ 
+// Collect comment
     }
     finally {
 
