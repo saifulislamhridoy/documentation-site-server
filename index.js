@@ -39,6 +39,7 @@ async function run() {
         const questionCollection = client.db('documentation').collection('questions')
         const answerCollection = client.db('documentation').collection('answers')
         const commentCollection = client.db('documentation').collection('comments')
+        const newsLetterCollection = client.db('documentation').collection('news')
 
         // collect user and Issue jwt
         app.put('/user/:email',async(req,res)=>{
@@ -239,7 +240,13 @@ app.get('/comment/:id',async(req,res)=>{
   const query = {postId:postId};
   const result = await (await commentCollection.find(query).toArray()).reverse();
   res.send(result);
-})
+});
+// Newletter email collect
+app.post('/news', async (req, res) => {
+  const news = req.body
+  const result = await newsLetterCollection.insertOne(news)
+  res.send(result)
+});
     }
     finally {
 
