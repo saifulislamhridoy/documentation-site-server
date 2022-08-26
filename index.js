@@ -100,7 +100,7 @@ async function run() {
       app.get('/blog',async(req,res)=>{
         const query ={}
         const cursor = blogCollection.find(query);
-        const result = await cursor.toArray()
+        const result = await (await cursor.toArray()).reverse();
         res.send(result)
       });
     //   Get single Blog
@@ -222,7 +222,7 @@ async function run() {
 app.get('/answer/:id',async(req,res)=>{
   const postId = req.params.id;
   const query = {postId:postId};
-  const result = await answerCollection.find(query).toArray();
+  const result = await (await answerCollection.find(query).toArray()).reverse();
   res.send(result);
 })
  
