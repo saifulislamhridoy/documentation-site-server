@@ -60,7 +60,9 @@ async function run() {
             console.log(user)
             const filter = {email:email}
             const updateDoc ={
-                $set:user
+                $set:{
+                  user
+                }
             }
             const result = await userCollection.updateOne(filter,updateDoc)
             res.send(result)
