@@ -54,7 +54,7 @@ async function run() {
             const result = await userCollection.updateOne(filter,updateDoc,option)
             res.send({result,token})
         });
-        app.put('/updateUser/:email',async(req,res)=>{
+        app.patch('/updateUser/:email',async(req,res)=>{
             const email = req.params.email;
             const user = req.body
             const filter = {email:email}
