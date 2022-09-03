@@ -57,12 +57,9 @@ async function run() {
         app.patch('/updateUser/:email',async(req,res)=>{
             const email = req.params.email;
             const user = req.body
-            console.log(user)
             const filter = {email:email}
             const updateDoc ={
-                $set:{
-                  user
-                }
+                $set:user
             }
             const result = await userCollection.updateOne(filter,updateDoc)
             res.send(result)
