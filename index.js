@@ -62,7 +62,7 @@ async function run() {
             const updateDoc ={
                 $set:user
             }
-            const result = await userCollection.updateOne(filter,updateDoc)
+            const result = await userCollection.updateOne(filter,updateDoc,option)
             res.send(result)
         });
         // Get Tutorial
