@@ -58,6 +58,7 @@ async function run() {
             const email = req.params.email;
             const user = req.body
             const filter = {email:email}
+            const option = {upsert:true}
             const updateDoc ={
                 $set:user
             }
@@ -245,6 +246,21 @@ app.get('/comment/:id',async(req,res)=>{
 app.post('/news', async (req, res) => {
   const news = req.body
   const result = await newsLetterCollection.insertOne(news)
+  res.send(result)
+});
+// update blog visitor
+app.put('/blogVisitor/:id',async(req,res)=>{
+  const id = req.params.id
+  const filter={_id:ObjectId(id)}
+  const blog = await blogCollection.findOne(filter)
+  const updateVisitor = parseInt(blog.visitor) + 1
+  const updateDoc ={
+    $set:{
+      ...blog,
+      visitor:updateVisitor
+    }
+  }
+  const result = await productCollection.updateOne(filter,updateDoc)
   res.send(result)
 });
     }
