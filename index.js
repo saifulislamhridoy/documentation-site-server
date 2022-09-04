@@ -251,15 +251,17 @@ app.post('/news', async (req, res) => {
 // update blog visitor
 app.put('/blogVisitor/:id',async(req,res)=>{
   const id = req.params.id
+  const visitorCount =req.body.blogVisitor.visitorCount
+  console.log(visitorCount)
   const filter={_id:ObjectId(id)}
   const blog = await blogCollection.findOne(filter)
-  const updateVisitor = parseInt(blog.visitor) + 1
+  const updateVisitor = parseInt(blog.visitor) + parseInt(visitorCount)
   const updateDoc ={
     $set:{
       visitor:updateVisitor
     }
   }
-  const result = await productCollection.updateOne(filter,updateDoc)
+  const result = await blogCollection.updateOne(filter,updateDoc)
   res.send(result)
 });
     }
