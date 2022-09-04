@@ -256,7 +256,6 @@ app.put('/blogVisitor/:id',async(req,res)=>{
   const updateVisitor = parseInt(blog.visitor) + 1
   const updateDoc ={
     $set:{
-      ...blog,
       visitor:updateVisitor
     }
   }
