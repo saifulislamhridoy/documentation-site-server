@@ -249,21 +249,22 @@ app.post('/news', async (req, res) => {
   res.send(result)
 });
 // update blog visitor
-// app.put('/blogVisitor/:id',async(req,res)=>{
-//   const id = req.params.id
-//   const visitorCount =req.body.blogVisitor.visitorCount
-//   console.log(visitorCount)
-//   const filter={_id:ObjectId(id)}
-//   const blog = await blogCollection.findOne(filter)
-//   const updateVisitor = parseInt(blog.visitor) + parseInt(visitorCount)
-//   const updateDoc ={
-//     $set:{
-//       visitor:updateVisitor
-//     }
-//   }
-//   const result = await blogCollection.updateOne(filter,updateDoc)
-//   res.send(result)
-// });
+app.put('/blogVisitor/:id',async(req,res)=>{
+  const id = req.params.id
+  const visitorCount =req.body.visitorCount
+  console.log(visitorCount)
+  const filter={_id:ObjectId(id)}
+  const blog = await blogCollection.findOne(filter)
+  const updateVisitor = parseInt(blog.visitor) + parseInt(visitorCount)
+  console.log(blog.visitor)
+  const updateDoc ={
+    $set:{
+      visitor:updateVisitor
+    }
+  }
+  const result = await blogCollection.updateOne(filter,updateDoc)
+  res.send(result)
+});
     }
     finally {
 
